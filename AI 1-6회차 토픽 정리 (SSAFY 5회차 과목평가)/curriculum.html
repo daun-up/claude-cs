@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI·ML·DL 강의 커리큘럼</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a26;
+    --border: rgba(255,255,255,0.08);
+    --text: #e8e8f0;
+    --muted: #7070a0;
+    --c1: #4f8ef7;
+    --c2: #3ecf8e;
+    --c3: #a78bfa;
+    --c4: #f97316;
+    --c5: #ec4899;
+    --c6: #06b6d4;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+  .hero {
+    padding: 60px 40px 40px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(79,142,247,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--c2);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    border: 1px solid rgba(62,207,142,0.3);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  .hero p { color: var(--muted); font-size: 14px; }
+  .stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .stat { text-align: left; }
+  .stat-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+
+  .week {
+    margin-bottom: 32px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+  .week:hover { border-color: rgba(255,255,255,0.15); }
+
+  .week-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    cursor: pointer;
+    background: var(--surface);
+    user-select: none;
+  }
+  .week-header:hover { background: var(--surface2); }
+
+  .week-num {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .week-title { flex: 1; }
+  .week-title h2 { font-size: 16px; font-weight: 500; color: #fff; margin-bottom: 2px; }
+  .week-title p { font-size: 12px; color: var(--muted); }
+  .week-toggle {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    transition: transform .3s;
+    flex-shrink: 0;
+  }
+  .week.open .week-toggle { transform: rotate(180deg); }
+
+  .week-body {
+    display: none;
+    padding: 0 24px 24px;
+    background: var(--surface);
+  }
+  .week.open .week-body { display: block; }
+
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+    padding-top: 20px;
+  }
+  .topic-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    transition: border-color .2s, transform .2s;
+  }
+  .topic-card:hover {
+    border-color: rgba(255,255,255,0.2);
+    transform: translateY(-1px);
+  }
+  .topic-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+  .topic-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .topic-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  .topic-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .kw {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .formula {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-top: 8px;
+    color: #c4c4e0;
+    line-height: 1.8;
+  }
+
+  /* Color themes per week */
+  .w1 .week-num { background: rgba(79,142,247,0.15); color: var(--c1); }
+  .w1 .week-header:hover, .w1.open .week-header { border-left: 3px solid var(--c1); }
+  .w1 .topic-tag { background: rgba(79,142,247,0.15); color: var(--c1); }
+  .w1 .kw { background: rgba(79,142,247,0.1); color: var(--c1); }
+
+  .w2 .week-num { background: rgba(62,207,142,0.15); color: var(--c2); }
+  .w2 .week-header:hover, .w2.open .week-header { border-left: 3px solid var(--c2); }
+  .w2 .topic-tag { background: rgba(62,207,142,0.15); color: var(--c2); }
+  .w2 .kw { background: rgba(62,207,142,0.1); color: var(--c2); }
+
+  .w3 .week-num { background: rgba(167,139,250,0.15); color: var(--c3); }
+  .w3 .week-header:hover, .w3.open .week-header { border-left: 3px solid var(--c3); }
+  .w3 .topic-tag { background: rgba(167,139,250,0.15); color: var(--c3); }
+  .w3 .kw { background: rgba(167,139,250,0.1); color: var(--c3); }
+
+  .w4 .week-num { background: rgba(249,115,22,0.15); color: var(--c4); }
+  .w4 .week-header:hover, .w4.open .week-header { border-left: 3px solid var(--c4); }
+  .w4 .topic-tag { background: rgba(249,115,22,0.15); color: var(--c4); }
+  .w4 .kw { background: rgba(249,115,22,0.1); color: var(--c4); }
+
+  .w5 .week-num { background: rgba(236,72,153,0.15); color: var(--c5); }
+  .w5 .week-header:hover, .w5.open .week-header { border-left: 3px solid var(--c5); }
+  .w5 .topic-tag { background: rgba(236,72,153,0.15); color: var(--c5); }
+  .w5 .kw { background: rgba(236,72,153,0.1); color: var(--c5); }
+
+  .w6 .week-num { background: rgba(6,182,212,0.15); color: var(--c6); }
+  .w6 .week-header:hover, .w6.open .week-header { border-left: 3px solid var(--c6); }
+  .w6 .topic-tag { background: rgba(6,182,212,0.15); color: var(--c6); }
+  .w6 .kw { background: rgba(6,182,212,0.1); color: var(--c6); }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 16px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div style="max-width:1000px;margin:0 auto">
+    <div class="hero-tag">Study Guide</div>
+    <h1>AI · ML · DL 강의 커리큘럼</h1>
+    <p>6차시 전체 토픽 핵심 개념 정리</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">6</div><div class="stat-label">차시</div></div>
+      <div class="stat"><div class="stat-num">29</div><div class="stat-label">토픽</div></div>
+      <div class="stat"><div class="stat-num">100+</div><div class="stat-label">핵심 개념</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- 1차시 -->
+<div class="week w1" id="w1">
+  <div class="week-header" onclick="toggle('w1')">
+    <div class="week-num">01</div>
+    <div class="week-title">
+      <h2>AI·ML·DL 기초 + 회귀 & 평가 지표</h2>
+      <p>AI/ML/DL 정의 · 데이터 구성 · R² · 혼동행렬 · 회귀</p>
+    </div>
+    <div class="week-toggle">▼</div>
+  </div>
+  <div class="week-body">
+    <div class="topics-grid">
+
+      <div class="topic-card">
+        <div class="topic-tag">개념 정의</div>
+        <div class="topic-name">AI · ML · DL의 정의</div>
+        <div class="topic-desc">세 개념의 포함 관계와 차이점. AI가 가장 넓고, ML이 그 안에, DL이 ML 안에 속하는 구조.</div>
+        <div class="topic-keywords">
+          <span class="kw">AI ⊃ ML ⊃ DL</span>
+          <span class="kw">지도학습</span>
+          <span class="kw">비지도학습</span>
+          <span class="kw">강화학습</span>
+        </div>
+        <div class="formula">AI: 인간 지능 모방
+ML: 데이터로부터 규칙 학습
+DL: 신경망 기반 ML</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">데이터</div>
+        <div class="topic-name">데이터 구성 요소</div>
+        <div class="topic-desc">ML 모델 학습에 필요한 데이터의 구성. 특성(Feature), 레이블(Label), 훈련/검증/테스트 분할.</div>
+        <div class="topic-keywords">
+          <span class="kw">Feature</span>
+          <span class="kw">Label</span>
+          <span class="kw">Train/Val/Test</span>
+          <span class="kw">전처리</span>
+        </div>
+        <div class="formula">일반적 분할: Train 70~80%
+         Val 10~15% / Test 10~15%</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">회귀 평가</div>
+        <div class="topic-name">회귀 설명력 R² (결정계수)</div>
+        <div class="topic-desc">회귀 모델이 데이터의 분산을 얼마나 설명하는지 나타내는 지표. 1에 가까울수록 좋음.</div>
+        <div class="topic-keywords">
+          <span class="kw">0~1 범위</span>
+          <span class="kw">분산 설명력</span>
+          <span class="kw">회귀 전용</span>
+        </div>
+        <div class="formula">R² = 1 - SS_res / SS_tot
+SS_res = Σ(y - ŷ)²
+SS_tot = Σ(y - ȳ)²</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">분류 평가</div>
+        <div class="topic-name">혼동행렬 (Confusion Matrix)</div>
+        <div class="topic-desc">분류 모델의 예측 결과를 TP/FP/FN/TN 4칸으로 정리한 표. Precision·Recall·F1의 출발점.</div>
+        <div class="topic-keywords">
+          <span class="kw">TP/FP/FN/TN</span>
+          <span class="kw">Precision</span>
+          <span class="kw">Recall</span>
+          <span class="kw">F1 Score</span>
+        </div>
+        <div class="formula">Precision = TP/(TP+FP)
+Recall   = TP/(TP+FN)
+F1       = 2×P×R/(P+R)</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">모델 유형</div>
+        <div class="topic-name">회귀 (Regression)</div>
+        <div class="topic-desc">연속적인 수치를 예측하는 지도학습. 집값·온도·주가 예측 등. 출력층에 활성화 함수 없음.</div>
+        <div class="topic-keywords">
+          <span class="kw">연속값 예측</span>
+          <span class="kw">MSE/MAE</span>
+          <span class="kw">선형회귀</span>
+        </div>
+        <div class="formula">선형회귀: y = wx + b
+손실: MSE = (1/n)Σ(y-ŷ)²</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- 2차시 -->
+<div class="week w2" id="w2">
+  <div class="week-header" onclick="toggle('w2')">
+    <div class="week-num">02</div>
+    <div class="week-title">
+      <h2>신경망 핵심 + 학습 알고리즘</h2>
+      <p>RSS · 신경망 · 경사하강법 · 로지스틱 회귀 · 손실함수</p>
+    </div>
+    <div class="week-toggle">▼</div>
+  </div>
+  <div class="week-body">
+    <div class="topics-grid">
+
+      <div class="topic-card">
+        <div class="topic-tag">통계</div>
+        <div class="topic-name">RSS (Residual Sum of Squares)</div>
+        <div class="topic-desc">실제값과 예측값의 잔차 제곱합. MSE의 기반이 되는 통계량. 작을수록 모델이 데이터에 잘 맞음.</div>
+        <div class="topic-keywords">
+          <span class="kw">잔차</span>
+          <span class="kw">제곱합</span>
+          <span class="kw">MSE 기반</span>
+        </div>
+        <div class="formula">RSS = Σ(yᵢ - ŷᵢ)²
+MSE = RSS / n</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">구조</div>
+        <div class="topic-name">신경망 (Neural Network)</div>
+        <div class="topic-desc">퍼셉트론을 여러 층으로 쌓은 구조. 입력층→은닉층→출력층. 활성화 함수로 비선형성 추가.</div>
+        <div class="topic-keywords">
+          <span class="kw">퍼셉트론</span>
+          <span class="kw">은닉층</span>
+          <span class="kw">활성화함수</span>
+          <span class="kw">역전파</span>
+        </div>
+        <div class="formula">출력 = f(Wx + b)
+f = ReLU, Sigmoid, tanh...</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">최적화</div>
+        <div class="topic-name">경사하강법 (Gradient Descent)</div>
+        <div class="topic-desc">손실을 줄이는 방향으로 가중치를 조금씩 수정하는 최적화 알고리즘. 기울기의 반대 방향으로 이동.</div>
+        <div class="topic-keywords">
+          <span class="kw">학습률 η</span>
+          <span class="kw">기울기</span>
+          <span class="kw">SGD/Adam</span>
+          <span class="kw">배치</span>
+        </div>
+        <div class="formula">w ← w - η · ∂L/∂w
+η: 학습률 (너무 크면 발산)</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">분류 모델</div>
+        <div class="topic-name">로지스틱 회귀 (Logistic Regression)</div>
+        <div class="topic-desc">이진 분류 모델. Sigmoid로 출력을 0~1 확률로 변환. 이름은 '회귀'지만 분류 알고리즘.</div>
+        <div class="topic-keywords">
+          <span class="kw">Sigmoid</span>
+          <span class="kw">이진분류</span>
+          <span class="kw">확률 출력</span>
+          <span class="kw">BCE</span>
+        </div>
+        <div class="formula">P(y=1|x) = σ(wx+b)
+σ(z) = 1/(1+e⁻ᶻ)</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">학습</div>
+        <div class="topic-name">손실함수 (Loss Function)</div>
+        <div class="topic-desc">모델 예측과 정답의 차이를 수치화. 역전파의 출발점. 문제 유형에 따라 다른 함수 선택.</div>
+        <div class="topic-keywords">
+          <span class="kw">MSE</span>
+          <span class="kw">MAE</span>
+          <span class="kw">Cross Entropy</span>
+          <span class="kw">BCE</span>
+        </div>
+        <div class="formula">회귀   → MSE / MAE
+이진분류 → BCE + Sigmoid
+다중분류 → CE + Softmax</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- 3차시 -->
+<div class="week w3" id="w3">
+  <div class="week-header" onclick="toggle('w3')">
+    <div class="week-num">03</div>
+    <div class="week-title">
+      <h2>RNN · NLP · Transformer · BERT · LSTM</h2>
+      <p>순차 데이터 처리 모델과 NLP 핵심 아키텍처</p>
+    </div>
+    <div class="week-toggle">▼</div>
+  </div>
+  <div class="week-body">
+    <div class="topics-grid">
+
+      <div class="topic-card">
+        <div class="topic-tag">시퀀스 모델</div>
+        <div class="topic-name">RNN 원리</div>
+        <div class="topic-desc">순서가 있는 데이터를 처리하는 신경망. 이전 출력을 다음 입력에 반영. 기울기 소실 문제 존재.</div>
+        <div class="topic-keywords">
+          <span class="kw">순차 처리</span>
+          <span class="kw">은닉 상태 hₜ</span>
+          <span class="kw">기울기 소실</span>
+        </div>
+        <div class="formula">hₜ = tanh(Wₕhₜ₋₁ + Wₓxₜ + b)
+단기 기억만 → LSTM으로 해결</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">NLP 평가</div>
+        <div class="topic-name">NLP 성능평가 지표</div>
+        <div class="topic-desc">언어 모델의 성능을 측정하는 다양한 지표. 문제 유형에 따라 적합한 지표 선택이 중요.</div>
+        <div class="topic-keywords">
+          <span class="kw">PPL(낮을수록↓)</span>
+          <span class="kw">BLEU(번역)</span>
+          <span class="kw">ROUGE(요약)</span>
+        </div>
+        <div class="formula">PPL  = exp(Cross Entropy)  ↓좋음
+BLEU = n-gram 일치율      ↑좋음
+ROUGE= 요약 겹침 비율     ↑좋음</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">핵심 아키텍처</div>
+        <div class="topic-name">Transformer 원리</div>
+        <div class="topic-desc">Self-Attention으로 문장 전체를 병렬 처리. RNN의 순차 처리 한계 극복. 현대 LLM의 기반 구조.</div>
+        <div class="topic-keywords">
+          <span class="kw">Self-Attention</span>
+          <span class="kw">병렬 처리</span>
+          <span class="kw">Q·K·V</span>
+          <span class="kw">위치 인코딩</span>
+        </div>
+        <div class="formula">Attention(Q,K,V) = softmax(QKᵀ/√dₖ)V
+W_all = W₃W₂W₁ → 비선형 필수</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">사전학습 모델</div>
+        <div class="topic-name">BERT 원리</div>
+        <div class="topic-desc">양방향 Transformer 인코더. 마스크된 단어 예측(MLM)으로 사전학습. 문장 이해·분류·QA에 강점.</div>
+        <div class="topic-keywords">
+          <span class="kw">양방향</span>
+          <span class="kw">MLM</span>
+          <span class="kw">Fine-tuning</span>
+          <span class="kw">인코더</span>
+        </div>
+        <div class="formula">사전학습: Masked LM + NSP
+파인튜닝: 태스크별 헤드 추가</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">장기 기억</div>
+        <div class="topic-name">LSTM 원리</div>
+        <div class="topic-desc">Cell state + Gate 3개로 장기 기억을 제어. RNN의 기울기 소실 문제 해결. 번역·음성 인식에 활용.</div>
+        <div class="topic-keywords">
+          <span class="kw">Cell state</span>
+          <span class="kw">Forget Gate</span>
+          <span class="kw">Input Gate</span>
+          <span class="kw">Output Gate</span>
+        </div>
+        <div class="formula">Forget: fₜ = σ(Wf·[hₜ₋₁,xₜ]+bf) 삭제
+Input : iₜ·C̃ₜ                  저장
+Output: hₜ = oₜ·tanh(Cₜ)       출력</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- 4차시 -->
+<div class="week w4" id="w4">
+  <div class="week-header" onclick="toggle('w4')">
+    <div class="week-num">04</div>
+    <div class="week-title">
+      <h2>디코딩 · LLM 평가 · 선호 학습</h2>
+      <p>텍스트 생성 방식 · 거대 언어 모델 평가 · RLHF</p>
+    </div>
+    <div class="week-toggle">▼</div>
+  </div>
+  <div class="week-body">
+    <div class="topics-grid">
+
+      <div class="topic-card">
+        <div class="topic-tag">텍스트 생성</div>
+        <div class="topic-name">디코딩 알고리즘</div>
+        <div class="topic-desc">LLM이 다음 단어를 선택하는 방식. Greedy·Beam Search·Sampling 등 다양한 전략 존재.</div>
+        <div class="topic-keywords">
+          <span class="kw">Greedy</span>
+          <span class="kw">Beam Search</span>
+          <span class="kw">Top-k/Top-p</span>
+          <span class="kw">Temperature</span>
+        </div>
+        <div class="formula">Greedy   : 매 스텝 최대 확률 선택
+Beam(k=3): 상위 k개 경로 유지
+Temperature: 높을수록 다양한 출력</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">LLM 평가</div>
+        <div class="topic-name">거대 언어 모델의 평가</div>
+        <div class="topic-desc">LLM 출력 품질을 측정하는 방법들. 사람이 직접 채점하기 어려워 자동 평가 방식 발전.</div>
+        <div class="topic-keywords">
+          <span class="kw">LLM-as-a-judge</span>
+          <span class="kw">벤치마크</span>
+          <span class="kw">PPL</span>
+          <span class="kw">MMLU</span>
+        </div>
+        <div class="formula">LLM-as-a-judge: 고성능 모델이 채점
+사람 평가 대비 비용·시간 절감
+단점: judge 모델 편향 반영 가능</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">정렬 학습</div>
+        <div class="topic-name">선호 학습 (Preference Learning)</div>
+        <div class="topic-desc">사람의 선호도를 학습에 반영하는 방법. RLHF가 대표적. ChatGPT·Claude 훈련의 핵심 기법.</div>
+        <div class="topic-keywords">
+          <span class="kw">RLHF</span>
+          <span class="kw">보상 모델</span>
+          <span class="kw">PPO</span>
+          <span class="kw">DPO</span>
+        </div>
+        <div class="formula">RLHF 단계:
+① SFT (지도 파인튜닝)
+② 보상 모델 학습
+③ PPO로 강화학습</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- 5차시 -->
+<div class="week w5" id="w5">
+  <div class="week-header" onclick="toggle('w5')">
+    <div class="week-num">05</div>
+    <div class="week-title">
+      <h2>CNN 원리 · 연산 · Pooling · Stride</h2>
+      <p>이미지 처리 신경망의 핵심 구조와 연산</p>
+    </div>
+    <div class="week-toggle">▼</div>
+  </div>
+  <div class="week-body">
+    <div class="topics-grid">
+
+      <div class="topic-card">
+        <div class="topic-tag">아키텍처</div>
+        <div class="topic-name">CNN 원리</div>
+        <div class="topic-desc">이미지에 특화된 신경망. 가중치 공유 + 지역 연결로 파라미터 절감. 층이 깊어질수록 고수준 특징 학습.</div>
+        <div class="topic-keywords">
+          <span class="kw">가중치 공유</span>
+          <span class="kw">지역 연결</span>
+          <span class="kw">수용 영역</span>
+          <span class="kw">AlexNet</span>
+        </div>
+        <div class="formula">Conv→ReLU→Pool 반복
+→ Flatten → FC → Softmax</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">핵심 연산</div>
+        <div class="topic-name">CNN 연산 (합성곱)</div>
+        <div class="topic-desc">필터가 입력 위를 슬라이딩하며 원소별 곱셈 후 합산. 출력 크기는 입력·커널·stride·padding에 의존.</div>
+        <div class="topic-keywords">
+          <span class="kw">커널</span>
+          <span class="kw">특징 맵</span>
+          <span class="kw">파라미터 수</span>
+        </div>
+        <div class="formula">출력크기 = (입력-커널)/stride + 1
+파라미터 = 필터수×(입력채널×K×K)+필터수</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">다운샘플링</div>
+        <div class="topic-name">풀링 (Pooling)</div>
+        <div class="topic-desc">특징 맵 크기를 줄이는 연산. 학습 파라미터 없음. 위치 불변성(translation invariance) 획득.</div>
+        <div class="topic-keywords">
+          <span class="kw">Max Pooling</span>
+          <span class="kw">Avg Pooling</span>
+          <span class="kw">위치 불변성</span>
+        </div>
+        <div class="formula">Max Pool 2×2:
+[1 3]
+[5 6]  →  6 (최댓값 선택)</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">연산 제어</div>
+        <div class="topic-name">스트라이드 합성곱 (Stride)</div>
+        <div class="topic-desc">필터 이동 간격. stride=2이면 두 칸씩 이동 → 출력 크기 절반. 풀링 대신 stride로 다운샘플링 가능.</div>
+        <div class="topic-keywords">
+          <span class="kw">이동 간격</span>
+          <span class="kw">출력 크기↓</span>
+          <span class="kw">Padding</span>
+        </div>
+        <div class="formula">출력 = (입력-커널)/stride + 1
+stride=1: 32→28 (커널5)
+stride=2: 32→14 (커널5)</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- 6차시 -->
+<div class="week w6" id="w6">
+  <div class="week-header" onclick="toggle('w6')">
+    <div class="week-num">06</div>
+    <div class="week-title">
+      <h2>Vision-Language · SigLIP · 이미지 생성 · HuggingFace · AI 파운데이션</h2>
+      <p>멀티모달 모델과 AI 생태계</p>
+    </div>
+    <div class="week-toggle">▼</div>
+  </div>
+  <div class="week-body">
+    <div class="topics-grid">
+
+      <div class="topic-card">
+        <div class="topic-tag">멀티모달</div>
+        <div class="topic-name">Vision-Language Models</div>
+        <div class="topic-desc">이미지와 텍스트를 함께 처리하는 모델. 이미지 캡셔닝·VQA·이미지 검색 등 다양한 응용.</div>
+        <div class="topic-keywords">
+          <span class="kw">CLIP</span>
+          <span class="kw">대조 학습</span>
+          <span class="kw">이미지 인코더</span>
+          <span class="kw">텍스트 인코더</span>
+        </div>
+        <div class="formula">CLIP: 이미지-텍스트 쌍 유사도 학습
+임베딩 공간에서 일치 쌍 가깝게
+불일치 쌍 멀게 → 대조 학습</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">CLIP 업그레이드</div>
+        <div class="topic-name">SigLIP</div>
+        <div class="topic-desc">CLIP의 Softmax를 Sigmoid로 교체한 모델. 쌍별 독립 판단으로 더 효율적·강건한 학습 가능.</div>
+        <div class="topic-keywords">
+          <span class="kw">Sigmoid Loss</span>
+          <span class="kw">쌍별 독립</span>
+          <span class="kw">CLIP 대비 효율↑</span>
+        </div>
+        <div class="formula">CLIP  : Softmax (배치 전체 비교)
+SigLIP: Sigmoid (쌍별 독립 판단)
+→ 배치 크기 의존성 감소</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">생성 AI</div>
+        <div class="topic-name">이미지 생성 모델</div>
+        <div class="topic-desc">텍스트나 노이즈로부터 이미지를 생성하는 모델. GAN·VAE·Diffusion 모델로 발전.</div>
+        <div class="topic-keywords">
+          <span class="kw">Diffusion</span>
+          <span class="kw">GAN</span>
+          <span class="kw">Stable Diffusion</span>
+          <span class="kw">DALL-E</span>
+        </div>
+        <div class="formula">Diffusion: 노이즈 추가 → 제거 학습
+GAN: Generator vs Discriminator
+VAE: 잠재 공간 인코딩·디코딩</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">플랫폼</div>
+        <div class="topic-name">허깅페이스 (HuggingFace)</div>
+        <div class="topic-desc">사전학습 모델을 공유·사용하는 오픈소스 플랫폼. Transformers 라이브러리로 BERT·GPT 등 쉽게 사용.</div>
+        <div class="topic-keywords">
+          <span class="kw">Model Hub</span>
+          <span class="kw">Transformers</span>
+          <span class="kw">Pipeline API</span>
+          <span class="kw">Fine-tuning</span>
+        </div>
+        <div class="formula">from transformers import pipeline
+clf = pipeline("text-classification")
+clf("이 영화 정말 재밌어요!")</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-tag">AI 인프라</div>
+        <div class="topic-name">AI 파운데이션 모델</div>
+        <div class="topic-desc">대규모 데이터로 사전학습된 범용 모델. 다양한 태스크에 파인튜닝 가능. GPT·BERT·LLaMA 등.</div>
+        <div class="topic-keywords">
+          <span class="kw">사전학습</span>
+          <span class="kw">파인튜닝</span>
+          <span class="kw">GPT</span>
+          <span class="kw">LLaMA</span>
+        </div>
+        <div class="formula">사전학습(대규모) → Foundation Model
+→ Fine-tuning(소규모, 태스크별)
+→ RLHF (선호도 정렬)</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function toggle(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+document.getElementById('w1').classList.add('open');
+</script>
+</body>
+</html>
